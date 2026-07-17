@@ -72,12 +72,27 @@
 
 ## 8. 2026-07-09 追記 — upload_deduped.csv の作成（lineage記録）
 
-- 本記録作成時点（2026-07-07）の `CSV/raindrop_monthly_2026-07-07_upload.csv`
-  （299件、§1参照）の原本は、現在このマシン上に存在しない。
+- 本記録作成時点（2026-07-07）の元CSV `CSV/raindrop_monthly_2026-07-07_upload.csv`
+  （299件、§1参照）は変更せず、このマシン上にローカル保持されている。
 - 後日 `CSV/raindrop_monthly_2026-07-07_upload_deduped.csv`（295件、ファイル
   更新日時 2026-07-09）が作成された。299件と295件は同一成果物ではなく、
   重複排除後の件数差であり、299件の記録を置き換えるものではない。
-- deduped版（295件）の内容承認、およびRaindropへの実際のアップロード反映
-  は、本追記時点で確認できていない。
 - CSVは`.gitignore`対象のため、いずれのバージョンも本リポジトリには保存
   しない。
+
+### 2026-07-18 追記: 重複除去済みimport CSVの確定
+
+- 元CSV `CSV/raindrop_monthly_2026-07-07_upload.csv` は299件で、変更せず
+  ローカルに保持している。
+- `CSV/` は `.gitignore` 対象のため、CSV実体はGit管理されない。
+- 重複URL 3グループに含まれる4行を統合し、295件の
+  `CSV/raindrop_monthly_2026-07-07_upload_deduped.csv` を作成した。
+  - UI Design Dictionary: 3行を1行へ統合（除外ID: `1747597636`, `1747597641`）
+  - Nucleo: 2行を1行へ統合（除外ID: `1747597839`）
+  - Supaste: 2行を1行へ統合（除外ID: `1748275507`）
+  - 合計: 3グループ、4重複行を除外、299件 → 295件
+- deduped CSVをRaindrop import用の本命ファイルとして確定した。
+- 2026-07-18にdeduped CSVのRaindrop importが完了した。
+- 元CSVは来歴・比較用として保持し、今後のimport本命には使用しない。
+- `corrections.csv` は確認・レビュー用であり、Raindrop import用の主成果物
+  ではない。
