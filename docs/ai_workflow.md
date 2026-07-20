@@ -35,6 +35,41 @@ Raindrop Update（folder / tags / note 書き戻し）
 - **Raindrop Update**: 分類結果の書き戻し
 - **Obsidian**: 厳選した判断資産の保管先
 
+### 現在の実装（Make構成）
+
+```text
+Webhook
+→ GitHubから許可タグ正本を取得
+→ GitHubからフォルダ正本を取得
+→ Jina Readerで本文取得
+→ Claude Haikuへ正本＋入力本文を送信
+→ JSON整形
+→ JSON Parse
+→ collectionNameを既存switchでcollection IDへ変換
+→ Raindrop Update
+```
+
+### Haiku出力契約
+
+```json
+{"collectionName":"フォルダ名","title":"タイトル","tags":["タグ1","タグ2"],"note":"","summary":"要約"}
+```
+
+- `collectionName` は既存フォルダ名の完全一致
+- Collection ID変換はMakeのTools 23で行う
+- Haikuは `collectionId` を直接出力しない
+- 通常noteは空文字
+- `要確認` 時だけ `要確認: <理由>` が必須
+- `parsed_text` を本文入力としてHaikuへ渡す
+- Jina失敗時はResume経路で処理を継続する
+
+### 正本の役割
+
+- `raindrop_folder_config.md` と `raindrop_allowed_tags_v1.md` はGitHubからMakeが動的取得する
+- `docs/make_haiku_prompt_draft.md` は本番promptのレビュー可能なrepo側草案である
+- Make本番設定はrepo編集だけでは変更されない
+- 本番反映はユーザーによる明示操作が必要
+
 ---
 
 ## 3. 正本ファイル
